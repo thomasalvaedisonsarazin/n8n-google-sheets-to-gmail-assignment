@@ -1,0 +1,1 @@
+# n8n-google-sheets-to-gmail-assignment
