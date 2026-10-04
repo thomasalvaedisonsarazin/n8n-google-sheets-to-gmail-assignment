@@ -1,0 +1,151 @@
+{
+  "name": "Google Sheets to Gmail Assignment",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "894776eb-7032-4576-bff3-99b3038ee732",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1mboqA3Z-NwZsDAAxiuPtri5JeOrx1OhISGZNLsAJQbM",
+          "mode": "list",
+          "cachedResultName": "n8n Email Assignment",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mboqA3Z-NwZsDAAxiuPtri5JeOrx1OhISGZNLsAJQbM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mboqA3Z-NwZsDAAxiuPtri5JeOrx1OhISGZNLsAJQbM/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "d4803355-e9be-46fb-b72a-581589513c2d",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6DYlUf0RQSyZ8ZYV",
+          "name": "GenAIAutomation"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0ca08c6c-9348-4aa0-b958-76d7128f6658",
+              "name": "Subject",
+              "value": "=Course Status Update - {{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "4e7e2fbd-1c3e-449f-86a4-ae1b0e65dcf3",
+              "name": "Message",
+              "value": "=Hi {{ $json.Name }},  Here is your latest course information:  Name: {{ $json.Name }} Course: {{ $json.Course }} Status: {{ $json.Status }}  Regards, EdisonThomas Automation Bot",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "4a8160c1-3251-4c06-a442-146ee37a97eb",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "thomasalvaedisonsarazin@gmail.com",
+        "subject": "={{ $json.Subject }}",
+        "emailType": "text",
+        "message": "={{ $json.Message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "d9a2d438-791f-4506-9e60-5f3db0808fde",
+      "name": "Send a message",
+      "webhookId": "cf1fab09-7af3-4452-92ab-bdf3c9414726",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qOmwz8GWWpCjtdMT",
+          "name": "AIGen"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "44f19904-fdda-48ad-a845-2df970500b91",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f3079bf1013e376a537a304ba663caac3d7f83f31078a1436b3507776ea71696"
+  },
+  "nodeGroups": [],
+  "id": "ubbEe4btfskrIZql",
+  "tags": []
+}
